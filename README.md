@@ -13,7 +13,7 @@
     <a href="https://berkdrmz.com" target="_blank">
       <img src="https://img.shields.io/badge/Portfolio-berkdrmz.com-0f172a?style=for-the-badge&logo=safari&logoColor=38bdf8" alt="Website" />
     </a>
-    <a href="https://linkedin.com/in/BURAYA_LINKEDIN_URL" target="_blank">
+    <a href="https://linkedin.com" target="_blank">
       <img src="https://img.shields.io/badge/LinkedIn-Berk_Durmaz-0f172a?style=for-the-badge&logo=linkedin&logoColor=0ea5e9" alt="LinkedIn" />
     </a>
     <a href="mailto:berkdurmaz41@hotmail.com">
