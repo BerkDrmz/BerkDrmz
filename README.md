@@ -22,6 +22,15 @@
     </a>
   </p>
 
+  <!-- KISA VE VURUCU TANITIM -->
+  <p align="center">
+    Bartın Üniversitesi <b>Bilişim Sistemleri</b> bölümünde lisans eğitimime devam ederken; 
+    özellikle <b>macOS & iOS ekosisteminde yerel yazılımlar (Swift & SwiftUI)</b>, 
+    <b>Unity (C#) ile interaktif sistemler</b> ve <b>modern web mimarileri</b> geliştiriyorum. <br>
+    Şu an aktif olarak macOS çentiğine yerel akıcılık kazandıran 
+    <b><a href="https://github.com/BerkDrmz/OpenIsland">OpenIsland</a></b> projesini inşa ediyorum.
+  </p>
+
 </div>
 
 ---
