@@ -74,12 +74,12 @@ def pill(d, label, x, y, font=SANSM, size=16, h=36, color=BONE, stroke="#34343A"
     return f'<rect x="{fmt(x)}" y="{y}" width="{fmt(w)}" height="{h}" rx="{h / 2}" fill="{fill}" stroke="{stroke}"/>' + g, w
 
 
-def tags(d, items, x, y):
+def tags(d, items, x, y, size=16, h=36, gap=8):
     out, cx = [], x
     for t in items:
-        p, w = pill(d, t, cx, y)
+        p, w = pill(d, t, cx, y, size=size, h=h)
         out.append(p)
-        cx += w + 8
+        cx += w + gap
     return "".join(out)
 
 
@@ -122,36 +122,7 @@ def hero():
     d.add(up(g + g2, .1), up(g3 + g4, .2))
     d.add(hero_island(d, W / 2, 34))
 
-    # dev başlık
-    size = 236
-    b1, b2 = 352, 566
-    cap = size * .73
-    for name, base, font, delay in (("Berk", b1, DISP, .25), ("Durmaz", b2, DISPI, .45)):
-        cid = d.uid("lc")
-        d.defs.append(f'<clipPath id="{cid}"><rect x="0" y="{base - cap - 40}" width="{W}" height="{cap + 92}"/></clipPath>')
-        ls = -size * .045 if font is DISP else -size * .03
-        g, w = d.text(name, font, size, 44, base, BONE, ls=ls, wrap=rise_wrap(delay, .07))
-        d.add(f'<g clip-path="url(#{cid})">{g}</g>')
-        if font is DISP:
-            berk_w = w
-        else:
-            durmaz_w = w
-            # nokta ve parıltı
-            dot_x = 44 + w + 10
-            d.add(f'<g clip-path="url(#{cid})"><g class="rise" style="animation-delay:{delay + .5:.2f}s">'
-                  f'<circle cx="{fmt(dot_x + 18)}" cy="{base - 17}" r="17" fill="{EMBER}"/></g></g>')
-            # ember parıltı: maske içinde statik kopya
-            mid, gid = d.uid("m"), d.uid("sw")
-            gm, _ = d.text(name, font, size, 44, base, "#fff", ls=ls)
-            d.defs.append(f'<mask id="{mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">{gm}</mask>')
-            d.defs.append(
-                f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" x1="-420" x2="0" y1="0" y2="0">'
-                f'<stop stop-color="{EMBER}" stop-opacity="0"/><stop offset=".55" stop-color="{EMBER2}" stop-opacity=".95"/>'
-                f'<stop offset="1" stop-color="{EMBER}" stop-opacity="0"/>'
-                f'<animateTransform attributeName="gradientTransform" type="translate" values="0 0;{W + 420} 0;{W + 420} 0" '
-                f'keyTimes="0;.42;1" dur="7s" begin="2.2s" repeatCount="indefinite" calcMode="spline" '
-                f'keySplines=".55 0 .3 1;0 0 1 1"/></linearGradient>')
-            d.add(f'<rect x="0" y="{base - cap - 30}" width="{W}" height="{cap + 70}" fill="url(#{gid})" mask="url(#{mid})"/>')
+    berk_w, durmaz_w = headline(d, 44, 352, 566, 236, 236)
 
     # sağ açıklama
     x0 = max(44 + berk_w + 74, 640)
@@ -179,6 +150,84 @@ def hero():
     d.add(marquee(d, words[::-1], MONO, 15, 652, 2.2, PANEL2, MUTED, 46, reverse=True, h=44))
     d.add(marquee(d, words, DISP, 26, 650, -2.4, EMBER, BG, 34, h=56))
 
+    d.add(cl)
+    return d
+
+
+def headline(d: Doc, x, b1, b2, size1, size2):
+    """'Berk' (kalın) + 'Durmaz.' (ince italik): harf harf yükselme ve ember parıltı."""
+    W, H = d.w, d.h
+    widths = []
+    for name, base, font, size, delay in (("Berk", b1, DISP, size1, .25), ("Durmaz", b2, DISPI, size2, .45)):
+        cap = size * .73
+        cid = d.uid("lc")
+        d.defs.append(f'<clipPath id="{cid}"><rect x="0" y="{fmt(base - cap - size * .17)}" width="{W}" height="{fmt(cap + size * .39)}"/></clipPath>')
+        ls = -size * .045 if font is DISP else -size * .03
+        g, w = d.text(name, font, size, x, base, BONE, ls=ls, wrap=rise_wrap(delay, .07))
+        d.add(f'<g clip-path="url(#{cid})">{g}</g>')
+        widths.append(w)
+        if font is DISPI:
+            r = size * .072
+            dot_x = x + w + size * .042 + r
+            d.add(f'<g clip-path="url(#{cid})"><g class="rise" style="animation-delay:{delay + .5:.2f}s">'
+                  f'<circle cx="{fmt(dot_x)}" cy="{fmt(base - r)}" r="{fmt(r)}" fill="{EMBER}"/></g></g>')
+            mid, gid = d.uid("m"), d.uid("sw")
+            gm, _ = d.text(name, font, size, x, base, "#fff", ls=ls)
+            d.defs.append(f'<mask id="{mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">{gm}</mask>')
+            band = W * .35
+            d.defs.append(
+                f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" x1="{fmt(-band)}" x2="0" y1="0" y2="0">'
+                f'<stop stop-color="{EMBER}" stop-opacity="0"/><stop offset=".55" stop-color="{EMBER2}" stop-opacity=".95"/>'
+                f'<stop offset="1" stop-color="{EMBER}" stop-opacity="0"/>'
+                f'<animateTransform attributeName="gradientTransform" type="translate" values="0 0;{fmt(W + band)} 0;{fmt(W + band)} 0" '
+                f'keyTimes="0;.42;1" dur="7s" begin="2.2s" repeatCount="indefinite" calcMode="spline" '
+                f'keySplines=".55 0 .3 1;0 0 1 1"/></linearGradient>')
+            d.add(f'<rect x="0" y="{fmt(base - cap - size * .13)}" width="{W}" height="{fmt(cap + size * .3)}" fill="url(#{gid})" mask="url(#{mid})"/>')
+    return widths
+
+
+def hero_mobile():
+    W = 600
+    words = ["SWIFT", "APPKIT", "CORE ANIMATION", "SWIFTUI", "PYTHON", "REACT", "TYPESCRIPT",
+             "CLOUDFLARE WORKERS", "UNITY", "C#", "POSTGRESQL"]
+    lines = ["Swift ile macOS uygulamaları,", "Python ve JavaScript ile web araçları,",
+             "Unity ile etkileşimli deneyimler."]
+    x = 40
+    size1 = 206
+    # 'Durmaz.' genişliğe sığsın
+    probe = Doc(W, 1, "", "")
+    w236 = probe.measure("Durmaz", DISPI, 236, -236 * .03)
+    size2 = min(206, 236 * (W - 2 * x - 40) / w236)
+    b1 = 182 + size1 * .73 + 14
+    b2 = b1 + 34 + size2 * .73
+    ly = b2 + 74
+    H = int(ly + 34 + len(lines) * 40 + 120)
+    d = Doc(W, H, "Berk Durmaz",
+            "Berk Durmaz — Bartın Üniversitesi Bilişim Sistemleri öğrencisi. Swift ile macOS uygulamaları, "
+            "Python ve JavaScript ile web araçları, Unity ile etkileşimli deneyimler geliştiriyor.")
+    d.motion_css += RISE_CSS + [
+        ".drift{animation:drift 18s ease-in-out infinite alternate}",
+        "@keyframes drift{to{transform:translate(-120px,90px)}}",
+    ]
+    op, cl = frame(d)
+    d.add(op)
+    d.add(glow(d, 430, 330, 420, EMBER, .34, "drift"), glow(d, 40, H, 300, EMBER, .12))
+    d.add('<g stroke="#fff" stroke-opacity=".04">' + "".join(f'<path d="M{c} 0V{H}"/>' for c in range(100, W, 100)) + "</g>")
+    d.add(grain(d, .09))
+    g, _ = d.text("BERK DURMAZ", MONOB, 16, x, 60, BONE, ls=1.6)
+    g2, _ = d.text("PORTFOLYO — 2026", MONO, 15, x, 84, DIM, ls=1.4)
+    g3, _ = d.text("BARTIN, TR", MONOB, 16, W - x, 60, BONE, ls=1.6, anchor="end")
+    g4, _ = d.text("41.63°N 32.34°E", MONO, 15, W - x, 84, DIM, ls=1.2, anchor="end")
+    d.add(up(g + g2, .1), up(g3 + g4, .2))
+    d.add(hero_island(d, W / 2, 112))
+    headline(d, x - 6, b1, b2, size1, size2)
+    lbl, _ = d.text("BİLİŞİM SİSTEMLERİ · BARTIN ÜNİ.", MONO, 16, x + 18, ly, EMBER, ls=1.4)
+    d.add(up(f'<circle cx="{x + 4}" cy="{ly - 5.5}" r="4.5" fill="{EMBER}" class="pulse"/>' + lbl, 1.0))
+    for i, line in enumerate(lines):
+        g, _ = d.text(line, SANS, 28, x, ly + 50 + i * 40, BONE if i == 0 else MUTED)
+        d.add(up(g, 1.1 + i * .09))
+    d.add(marquee(d, words[::-1], MONO, 15, H - 50, 3, PANEL2, MUTED, 40, reverse=True, h=40))
+    d.add(marquee(d, words, DISP, 24, H - 50, -3.4, EMBER, BG, 30, h=52))
     d.add(cl)
     return d
 
@@ -399,6 +448,44 @@ def illus_unitakip(d: Doc):
     return "".join(out)
 
 
+def card_mobile(name, num, kind, title, desc, tag_list, illus, alt):
+    """Telefon için dikey kart: yazı üstte, aynı illüstrasyon altta."""
+    global PX, PY, PW, PH
+    W, x = 600, 45
+    probe = Doc(W, 1, "", "")
+    desc_lines = probe.wraplines(desc, SANS, 28, W - 2 * x)
+    dy = 226
+    ty = dy + (len(desc_lines) - 1) * 40 + 36
+    saved = PX, PY, PW, PH
+    PX, PY, PW, PH = x, ty + 48 + 40, W - 2 * x, 320
+    H = PY + PH + x
+    try:
+        d = Doc(W, H, title, alt)
+        d.motion_css += RISE_CSS
+        op, cl = frame(d)
+        d.add(op)
+        d.add(glow(d, W * .7, PY + PH * .4, 420, EMBER, .2))
+        d.add(grain(d, .07))
+        d.add(up(section_label(d, num, kind, x, 72, size=18), .1))
+        gh, _ = d.text("GITHUB", MONO, 17, W - x - 18, 72, MUTED, ls=1.6, anchor="end")
+        d.add(up(gh + arrow(W - x - 10, 59.5, 11, EMBER, 1.9), .1))
+        cid = d.uid("lc")
+        d.defs.append(f'<clipPath id="{cid}"><rect x="0" y="86" width="{W}" height="100"/></clipPath>')
+        tg, _ = d.text(title, TITLE, 76, x - 3, 166, BONE, ls=-2.8, wrap=rise_wrap(.15, .035))
+        d.add(f'<g clip-path="url(#{cid})">{tg}</g>')
+        para = "".join(d.text(l, SANS, 28, x, dy + i * 40, MUTED)[0] for i, l in enumerate(desc_lines))
+        d.add(up(para, .45))
+        d.add(up(tags(d, tag_list, x, ty, size=22, h=48, gap=10), .6))
+        pid = d.uid("pc")
+        d.defs.append(f'<clipPath id="{pid}"><rect x="{PX}" y="{PY}" width="{PW}" height="{PH}" rx="18"/></clipPath>')
+        d.add(f'<g class="up" style="animation-delay:.3s"><rect x="{PX}" y="{PY}" width="{PW}" height="{PH}" rx="18" '
+              f'fill="{PANEL}" stroke="{LINE}"/><g clip-path="url(#{pid})">{illus(d)}</g></g>')
+        d.add(cl)
+        return d
+    finally:
+        PX, PY, PW, PH = saved
+
+
 CARDS = [
     ("card-openisland", "01", "MACOS · AÇIK KAYNAK", "OpenIsland",
      "MacBook ekranının üst kısmında medya kontrollerini, Pomodoro’yu, dosya rafını ve Dock "
@@ -417,9 +504,11 @@ CARDS = [
 
 def main():
     OUT.mkdir(exist_ok=True)
-    jobs = [("hero", hero)] + [
-        (c[0], (lambda c=c: card(c[0], c[1], c[2], c[3], c[4], c[5], c[6], f"{c[3]} — {c[4]}")[1]))
-        for c in CARDS]
+    jobs = [("hero", hero), ("hero-mobile", hero_mobile)]
+    for c in CARDS:
+        alt = f"{c[3]} — {c[4]}"
+        jobs.append((c[0], lambda c=c, alt=alt: card(*c, alt)[1]))
+        jobs.append((c[0] + "-mobile", lambda c=c, alt=alt: card_mobile(*c, alt)))
     for name, fn in jobs:
         doc = fn()
         svg = doc.render()
