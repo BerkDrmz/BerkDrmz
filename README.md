@@ -1,30 +1,30 @@
-<p align="center">
-  <img src="assets/profile-banner.svg" width="920" alt="Berk Durmaz · macOS, Swift, Web ve Unity" />
-</p>
+<a href="https://berkdrmz.com">
+  <img src="assets/hero.svg" width="100%" alt="Berk Durmaz — Swift ile macOS uygulamaları, Python ve JavaScript ile web araçları, Unity ile etkileşimli deneyimler." />
+</a>
+
+<br />
 
 **Bartın Üniversitesi Bilişim Sistemleri öğrencisiyim.** Swift ile macOS uygulamaları, Python ve JavaScript ile web araçları, Unity ile etkileşimli deneyimler geliştiriyorum.
 
-[Projeleri gör](#öne-çıkan-projeler) · [E-posta](mailto:berkdurmaz41@hotmail.com)
+[Projeler](#öne-çıkan-projeler) · [Kişisel site ↗](https://berkdrmz.com) · [E-posta ↗](mailto:berkdurmaz41@hotmail.com)
+
+<br />
 
 ## Öne çıkan projeler
 
-### [OpenIsland ↗](https://github.com/BerkDrmz/OpenIsland)
+<a href="https://github.com/BerkDrmz/OpenIsland">
+  <img src="assets/card-openisland.svg" width="100%" alt="OpenIsland — MacBook ekranının üst kısmında medya kontrollerini, Pomodoro’yu, dosya rafını ve Dock önizlemelerini bir araya getiren açık kaynaklı macOS uygulaması. Swift, AppKit, Core Animation." />
+</a>
 
-MacBook ekranının üst kısmında medya kontrollerini, Pomodoro’yu, dosya rafını ve Dock pencere önizlemelerini bir araya getiren açık kaynaklı macOS uygulaması.
+<a href="https://github.com/BerkDrmz/MacRAR-Plus">
+  <img src="assets/card-macrar.svg" width="100%" alt="MacRAR Plus — RAR, ZIP ve 7z arşivleri için yerel macOS çalışma alanı; Quick Look, Finder eylemleri ve arşivi çıkarmadan içerik arama. Swift, macOS, Quick Look." />
+</a>
 
-`Swift` · `AppKit` · `Core Animation`
+<a href="https://github.com/BerkDrmz/unitakip-public">
+  <img src="assets/card-unitakip.svg" width="100%" alt="UniTakip — Ders sitelerindeki ödev, sınav ve notları tek panelde toplayan, Cloudflare üzerinde çalışıp Gmail ile bildiren kişisel takip uygulaması. Python, React, Cloudflare Workers." />
+</a>
 
-### [MacRAR Plus ↗](https://github.com/BerkDrmz/MacRAR-Plus)
-
-RAR, ZIP ve 7z arşivleri için yerel macOS çalışma alanı. Quick Look, Finder eylemleri ve arşivi çıkarmadan içerik arama özellikleri sunuyor.
-
-`Swift` · `macOS` · `Quick Look`
-
-### [UniTakip ↗](https://github.com/BerkDrmz/unitakip-public)
-
-Üniversite ders sitelerindeki ödevleri, sınavları ve notları tek panelde toplayan kişisel takip uygulaması. Cloudflare üzerinde çalışıyor ve değişiklikleri Gmail ile bildiriyor.
-
-`Python` · `React` · `Cloudflare Workers`
+<br />
 
 ## Geliştirme alanlarım
 
@@ -34,6 +34,7 @@ RAR, ZIP ve 7z arşivleri için yerel macOS çalışma alanı. Quick Look, Finde
 
 <details>
   <summary>Diğer çalışmalar</summary>
+  <br />
 
 - [Neurocharging](https://github.com/BerkDrmz/neurocharging) · Unity denemeleri
 - KPI yönetim paneli · PHP, MySQL ve JavaScript ile metrikler ve grafikler
@@ -41,4 +42,6 @@ RAR, ZIP ve 7z arşivleri için yerel macOS çalışma alanı. Quick Look, Finde
 
 </details>
 
-[GitHub’daki tüm depolar](https://github.com/BerkDrmz?tab=repositories) · [Kişisel site](https://berkdrmz.com)
+<br />
+
+<sub>[Tüm depolar](https://github.com/BerkDrmz?tab=repositories) · [berkdrmz.com](https://berkdrmz.com)</sub>
